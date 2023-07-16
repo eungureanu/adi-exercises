@@ -1,8 +1,72 @@
+displayController();
 console.log(participatingCountries());
+console.log(countriesByPopulation());
+console.log(topFiveCountriesByPopulation());
 
 function participatingCountries() {
   const arr = getOlympicData();
   return arr.map(item => item.Nation);
+}
+
+function countriesByPopulation(){
+  const arr = getOlympicData().map((item) => [item.Nation, item.Population]);
+  // checks if country still exists
+  // const arrayPop = arr.map((item) => {
+  //   if(item.Exists == "YES"){
+  //     return item.Population;
+  //   }
+  // });
+  return orderedArrayPop = arr.sort((a,b) => a[1]-b[1]);
+}
+
+function displayController() {
+  const countryList = document.getElementById("participating-countries");
+  for (let i = 0; i < participatingCountries().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = participatingCountries()[i];
+    countryList.appendChild(listItem);
+  }
+
+  const topFiveByPop = document.getElementById("top-five-population");
+  for (let i = 0; i < 5; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = topFiveCountriesByPopulation()[i];
+    topFiveByPop.appendChild(listItem);
+  }
+};
+
+// const myArray=[3,2,5,4];
+// myArray.sort((a,b)=> a-b);
+// console.log(myArray.sort((a,b)=> a-b));
+// const quickSort = (arr) => {
+//   if (arr.length <= 1) {
+//     return arr;
+//   }
+
+//   let pivot = arr[0];
+//   let leftArr = [];
+//   let rightArr = [];
+
+//   for (let i = 1; i < arr.length; i++) {
+//     if (arr[i] < pivot) {
+//       leftArr.push(arr[i]);
+//     } else {
+//       rightArr.push(arr[i]);
+//     }
+//   }
+
+//   return [...quickSort(leftArr), pivot, ...quickSort(rightArr)];
+// };
+// quickSort(myArray);
+// console.log(quickSort(myArray));
+
+function topFiveCountriesByPopulation(){
+  const reversedArrayPop = countriesByPopulation().reverse();
+  const topFiveCountriesPop = [];
+  for (i=0; i<5; i++){
+    topFiveCountriesPop.push(reversedArrayPop[i]);
+  }
+  return topFiveCountriesPop;
 }
 
 function getOlympicData() { 
