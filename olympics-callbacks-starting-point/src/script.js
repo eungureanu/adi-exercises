@@ -2,6 +2,7 @@ displayController();
 console.log(participatingCountries());
 console.log(countriesByPopulation());
 console.log(topFiveCountriesByPopulation());
+console.log(countriesLetterA());
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -19,6 +20,27 @@ function countriesByPopulation(){
   return orderedArrayPop = arr.sort((a,b) => a[1]-b[1]);
 }
 
+function topFiveCountriesByPopulation(){
+  const reversedArrayPop = countriesByPopulation().reverse();
+  const topFiveCountriesPop = [];
+  for (i=0; i<5; i++){
+    topFiveCountriesPop.push(reversedArrayPop[i]);
+  }
+  return topFiveCountriesPop;
+}
+
+function countriesLetterA(){
+  const arr = getOlympicData();
+  const arr2 = arr.filter(item => item.Exists=="YES");
+  console.log(arr2);
+  const newArr = arr2.filter((item) => checkFirstLetter(item.Nation, "A"));
+  return newArr.map(item => item.Nation);
+}
+
+function checkFirstLetter(string, firstLetter){
+  return string[0]==firstLetter;
+}
+
 function displayController() {
   const countryList = document.getElementById("participating-countries");
   for (let i = 0; i < participatingCountries().length; i++) {
@@ -32,6 +54,13 @@ function displayController() {
     const listItem = document.createElement("li");
     listItem.innerHTML = topFiveCountriesByPopulation()[i];
     topFiveByPop.appendChild(listItem);
+  }
+
+  const existingCountriesA = document.getElementById("countries-exist-a");
+  for (let i = 0; i < countriesLetterA().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = countriesLetterA()[i];
+    existingCountriesA.appendChild(listItem);
   }
 };
 
@@ -59,15 +88,6 @@ function displayController() {
 // };
 // quickSort(myArray);
 // console.log(quickSort(myArray));
-
-function topFiveCountriesByPopulation(){
-  const reversedArrayPop = countriesByPopulation().reverse();
-  const topFiveCountriesPop = [];
-  for (i=0; i<5; i++){
-    topFiveCountriesPop.push(reversedArrayPop[i]);
-  }
-  return topFiveCountriesPop;
-}
 
 function getOlympicData() { 
   return [
