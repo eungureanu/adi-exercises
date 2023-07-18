@@ -3,6 +3,7 @@ console.log(participatingCountries());
 console.log(countriesByPopulation());
 console.log(topFiveCountriesByPopulation());
 console.log(countriesLetterA());
+console.log(sumPopulation());
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -31,14 +32,21 @@ function topFiveCountriesByPopulation(){
 
 function countriesLetterA(){
   const arr = getOlympicData();
-  const arr2 = arr.filter(item => item.Exists=="YES");
-  console.log(arr2);
-  const newArr = arr2.filter((item) => checkFirstLetter(item.Nation, "A"));
-  return newArr.map(item => item.Nation);
+  const arr2 = arr.filter(item => (item.Exists=="YES" && checkFirstLetter(item.Nation, "A")));
+  return arr2.map(item => item.Nation);
 }
 
 function checkFirstLetter(string, firstLetter){
   return string[0]==firstLetter;
+}
+
+function sumPopulation(){
+  let sum = 0;
+  const arr = getOlympicData();
+  for (let i=0; i<arr.length; i++){
+    sum += arr[i].Population;
+  }
+  return sum;
 }
 
 function displayController() {
@@ -62,6 +70,9 @@ function displayController() {
     listItem.innerHTML = countriesLetterA()[i];
     existingCountriesA.appendChild(listItem);
   }
+
+  const populationSum = document.getElementById("pop-sum");
+  populationSum.textContent += " "+sumPopulation();
 };
 
 // const myArray=[3,2,5,4];
