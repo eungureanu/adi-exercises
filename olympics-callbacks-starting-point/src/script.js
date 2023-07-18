@@ -82,12 +82,19 @@ function maxApps(){
   const arr = getOlympicData();
   let maxApps = 0;
   let maxNation = '';
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].Apps > maxApps) {
-      maxApps = arr[i].Apps;
-      maxNation = arr[i].Nation;
+  // for (let i = 0; i < arr.length; i++) {
+  //   if (arr[i].Apps > maxApps) {
+  //     maxApps = arr[i].Apps;
+  //     maxNation = arr[i].Nation;
+  //   }
+  // }
+  arr.forEach((item) => {
+    const { Nation, Apps } = item;
+    if (Apps > maxApps){
+      maxApps = Apps;
+      maxNation = Nation;
     }
-  }
+  });
   return [maxNation, maxApps];
 }
  
@@ -147,12 +154,10 @@ function displayController() {
   }
 
   const mostAppearences = document.getElementById("max-apps");
-  const listItem = document.createElement("li");
-  listItem.innerHTML = maxApps();
-  mostAppearences.appendChild(listItem);
+  mostAppearences.textContent += maxApps();
 
 
-  
+
 }
 
 // const myArray=[3,2,5,4];
