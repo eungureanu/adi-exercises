@@ -1,9 +1,11 @@
 displayController();
 console.log(participatingCountries());
 console.log(countriesByPopulation());
+console.log(topFiveExistingCountriesByPopulation());
 console.log(topFiveCountriesByPopulation());
 console.log(countriesLetterA());
 console.log(sumPopulation());
+console.log(topFiveCountriesByEarliestAppearence());
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -12,13 +14,15 @@ function participatingCountries() {
 
 function countriesByPopulation(){
   const arr = getOlympicData().map((item) => [item.Nation, item.Population]);
-  // checks if country still exists
-  // const arrayPop = arr.map((item) => {
-  //   if(item.Exists == "YES"){
-  //     return item.Population;
-  //   }
-  // });
-  return orderedArrayPop = arr.sort((a,b) => a[1]-b[1]);
+  return orderedArrayPop = arr.sort((a,b) => a[1]-b[1]); //population is ordered low to high and then reversed in the topFiveCountriesByPopulation function
+}
+
+//BONUS
+function topFiveExistingCountriesByPopulation(){
+  const arr = getOlympicData().filter(item => item.Exists=="YES");
+  const arrPop = arr.map((item) => [item.Nation, item.Population]);
+  const orderedArrayPop = arrPop.sort((a,b) => b[1]-a[1]); //population is ordered high to low
+  return topFive(orderedArrayPop);
 }
 
 function topFiveCountriesByPopulation(){
@@ -36,10 +40,6 @@ function countriesLetterA(){
   return arr2.map(item => item.Nation);
 }
 
-function checkFirstLetter(string, firstLetter){
-  return string[0]==firstLetter;
-}
-
 function sumPopulation(){
   let sum = 0;
   const arr = getOlympicData();
@@ -48,6 +48,28 @@ function sumPopulation(){
   }
   return sum;
 }
+
+function topFiveCountriesByEarliestAppearence(){
+  const arr = getOlympicData().map(item => [item.Nation, item.First_App]);
+  console.log(arr);
+  const orderedArrayFirstApp = arr.sort((a,b) => a[1]-b[1]); //population is ordered high to low
+  return topFive(orderedArrayFirstApp);
+}
+
+
+//reusable
+function topFive(array){
+  const topFive = [];
+  for (i=0; i<5; i++){
+    topFive.push(array[i]);
+  }
+  return topFive;
+}
+
+function checkFirstLetter(string, firstLetter){
+  return string[0]==firstLetter;
+}
+//reusable
 
 function displayController() {
   const countryList = document.getElementById("participating-countries");
@@ -73,6 +95,13 @@ function displayController() {
 
   const populationSum = document.getElementById("pop-sum");
   populationSum.textContent += " "+sumPopulation();
+
+  const topFiveEarliestApp = document.getElementById("top-five-earliest-app");
+  for (let i = 0; i < 5; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = topFiveCountriesByEarliestAppearence()[i];
+    topFiveEarliestApp.appendChild(listItem);
+  }
 };
 
 // const myArray=[3,2,5,4];
