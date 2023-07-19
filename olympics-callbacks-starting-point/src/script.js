@@ -7,7 +7,8 @@ console.log("#3 Tarile care inca exista si incep cu litera A:", countriesLetterA
 console.log("#4 Suma tuturor populatiilor:", sumPopulation());
 console.log("#5 TOP 5 tari cu cea mai devreme aparitie: ", topFiveCountriesByEarliestAppearence());
 console.log("#6 un array de obiecte de forma { nation: country_name, code: country_code }:", nationCode());
-console.log(maxApps());
+console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
+console.log("#8 Tarile cu  most Successful Sport = Athletics", mostSuccessfulAthletics());
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -98,7 +99,11 @@ function maxApps(){
   return [maxNation, maxApps];
 }
  
-
+function mostSuccessfulAthletics(){
+  const arr = getOlympicData();
+  const arr2 = arr.filter(item => checkMostSuccessfulSport(item.MostSuccessfulSport, "Athletics"));
+  return arr2.map(item => item.Nation);
+}
 
 //reusable
 function topFive(array){
@@ -111,6 +116,10 @@ function topFive(array){
 
 function checkFirstLetter(string, firstLetter){
   return string[0]==firstLetter;
+}
+
+function checkMostSuccessfulSport(property, value){
+  return property == value;
 }
 //reusable
 
@@ -156,7 +165,12 @@ function displayController() {
   const mostAppearences = document.getElementById("max-apps");
   mostAppearences.textContent += maxApps();
 
-
+  const mostSuccesfulSportAthletics = document.getElementById("most-successful-athletics");
+  for (let i = 0; i < mostSuccessfulAthletics().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = mostSuccessfulAthletics()[i];
+    mostSuccesfulSportAthletics.appendChild(listItem);
+  }
 
 }
 
