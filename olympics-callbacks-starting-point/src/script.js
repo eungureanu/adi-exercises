@@ -11,6 +11,7 @@ console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
 console.log("#8 Tarile cu  most Successful Sport = Athletics", mostSuccessfulAthletics());
 console.log("#8 Tara cea mai mica cu cel putin o medalie castigata:", smallestCountryWithMedal());
 console.log("#9 un obiect de forma { Nation: Population, ... }:", nationPopulation());
+console.log("#10 O tara random din array si populatia acesteia:", randomCountry());
 
 
 function participatingCountries() {
@@ -124,6 +125,17 @@ function nationPopulation(){
   return newObj;
 }
 
+function randomCountry(){
+  const arr = getOlympicData();
+  let randomIndex = Math.floor(Math.random() * arr.length);
+  const randomObj = arr[randomIndex];
+  const {Nation, Population} = randomObj;
+  return { 
+    nation: Nation,
+    population: Population
+  }
+}
+
 //reusable
 function topFive(array){
   const topFive = [];
@@ -207,6 +219,10 @@ function displayController() {
     listItem.textContent = `${nation}: ${population}`;
     natPop.appendChild(listItem);
   }
+
+  const randomCountryPop = document.getElementById("random-country");
+  randomCountryPop.textContent += randomCountry().nation+", "+randomCountry().population; //calls randomCountry() again, so it will display a different result that in the console
+
 }
 
 // const myArray=[3,2,5,4];
