@@ -8,12 +8,12 @@ console.log("#4 Suma tuturor populatiilor:", sumPopulation());
 console.log("#5 TOP 5 tari cu cea mai devreme aparitie: ", topFiveCountriesByEarliestAppearence());
 console.log("#6 un array de obiecte de forma { nation: country_name, code: country_code }:", nationCode());
 console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
-console.log("#8 Tarile cu  most Successful Sport = Athletics", mostSuccessfulAthletics());
+console.log("#8 Tarile cu Most Successful Sport = Athletics", mostSuccessfulAthletics());
 console.log("#8 Tara cea mai mica cu cel putin o medalie castigata:", smallestCountryWithMedal());
 console.log("#9 un obiect de forma { Nation: Population, ... }:", nationPopulation());
 console.log("#11 O tara random din array si populatia acesteia:", randomCountry());
 console.log("#12 Tarile cu populatia peste 1 milion de locuitori care au castigat mai multe medalii iarna decat vara:", multiMillionSummerWinter());
-
+console.log("#14 Tara cu cea mai recenta prima aparitie: ", latestFirstApp());
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -143,6 +143,12 @@ function multiMillionSummerWinter(){
   return arr2.map(item => item.Nation);
 }
 
+function latestFirstApp(){
+  const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
+  reversedArray = orderedArray.reverse();
+  return reversedArray[0].Nation+", "+reversedArray[0].First_App;
+}
+
 //reusable
 function topFive(array){
   const topFive = [];
@@ -236,6 +242,10 @@ function displayController() {
     listItem.innerHTML = multiMillionSummerWinter()[i];
     overMillSummerWinter.appendChild(listItem);
   }
+
+  const mostRecentFirstApp = document.getElementById("most-recent-app");
+  mostRecentFirstApp.textContent += latestFirstApp();
+
 
 }
 
