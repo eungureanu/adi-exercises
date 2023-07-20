@@ -11,7 +11,8 @@ console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
 console.log("#8 Tarile cu  most Successful Sport = Athletics", mostSuccessfulAthletics());
 console.log("#8 Tara cea mai mica cu cel putin o medalie castigata:", smallestCountryWithMedal());
 console.log("#9 un obiect de forma { Nation: Population, ... }:", nationPopulation());
-console.log("#10 O tara random din array si populatia acesteia:", randomCountry());
+console.log("#11 O tara random din array si populatia acesteia:", randomCountry());
+console.log("#12 Tarile cu populatia peste 1 milion de locuitori care au castigat mai multe medalii iarna decat vara:", multiMillionSummerWinter());
 
 
 function participatingCountries() {
@@ -136,6 +137,12 @@ function randomCountry(){
   }
 }
 
+function multiMillionSummerWinter(){
+  const arr = getOlympicData();
+  const arr2 = arr.filter(item => (item.Population>=1000000 && item.WO_Medal>item.SO_Medal));
+  return arr2.map(item => item.Nation);
+}
+
 //reusable
 function topFive(array){
   const topFive = [];
@@ -222,6 +229,13 @@ function displayController() {
 
   const randomCountryPop = document.getElementById("random-country");
   randomCountryPop.textContent += randomCountry().nation+", "+randomCountry().population; //calls randomCountry() again, so it will display a different result that in the console
+
+  const overMillSummerWinter = document.getElementById("multimill-summer-winter");
+  for (let i = 0; i < multiMillionSummerWinter().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = multiMillionSummerWinter()[i];
+    overMillSummerWinter.appendChild(listItem);
+  }
 
 }
 
