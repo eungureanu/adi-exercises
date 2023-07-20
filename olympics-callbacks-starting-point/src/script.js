@@ -9,6 +9,9 @@ console.log("#5 TOP 5 tari cu cea mai devreme aparitie: ", topFiveCountriesByEar
 console.log("#6 un array de obiecte de forma { nation: country_name, code: country_code }:", nationCode());
 console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
 console.log("#8 Tarile cu  most Successful Sport = Athletics", mostSuccessfulAthletics());
+console.log("#8 Tara cea mai mica cu cel putin o medalie castigata:", smallestCountryWithMedal());
+console.log("#9 un obiect de forma { Nation: Population, ... }:", nationPopulation());
+
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -105,6 +108,22 @@ function mostSuccessfulAthletics(){
   return arr2.map(item => item.Nation);
 }
 
+function smallestCountryWithMedal(){
+  const orderedArray = orderrByObjectPropertyLowToHigh("Population");
+  const arr = orderedArray.filter(item => (item.Exists == "YES" && item.Medal>0));
+  return arr[0];
+}
+
+function nationPopulation(){
+  const arr = getOlympicData();
+  let newObj = {};
+  arr.forEach((item) => {
+    let { Nation, Population } = item;
+    newObj[Nation]=Population;
+  });
+  return newObj;
+}
+
 //reusable
 function topFive(array){
   const topFive = [];
@@ -120,6 +139,12 @@ function checkFirstLetter(string, firstLetter){
 
 function checkMostSuccessfulSport(property, value){
   return property == value;
+}
+
+function orderrByObjectPropertyLowToHigh(key){
+  const arr = getOlympicData();
+  const ordered = arr.sort((a, b) => (a[key]-b[key]));
+  return ordered;
 }
 //reusable
 
@@ -172,6 +197,16 @@ function displayController() {
     mostSuccesfulSportAthletics.appendChild(listItem);
   }
 
+  const smallestWithMedal = document.getElementById("smallest-medals");
+  smallestWithMedal.textContent += smallestCountryWithMedal().Nation;
+
+  const natPop = document.getElementById("nation-population");
+  let obj=nationPopulation();
+  for (const [nation, population] of Object.entries(obj)) {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${nation}: ${population}`;
+    natPop.appendChild(listItem);
+  }
 }
 
 // const myArray=[3,2,5,4];
