@@ -11,9 +11,13 @@ console.log("#7 Tara cu cele mai multe aparitii:", maxApps());
 console.log("#8 Tarile cu Most Successful Sport = Athletics", mostSuccessfulAthletics());
 console.log("#8 Tara cea mai mica cu cel putin o medalie castigata:", smallestCountryWithMedal());
 console.log("#9 un obiect de forma { Nation: Population, ... }:", nationPopulation());
+console.log("#10 Un obiect de forma: { prima litera din numele tarii: [array cu toate tarile care incep cu acea litera]", groupedByFirstLetter());
 console.log("#11 O tara random din array si populatia acesteia:", randomCountry());
 console.log("#12 Tarile cu populatia peste 1 milion de locuitori care au castigat mai multe medalii iarna decat vara:", multiMillionSummerWinter());
+console.log("#13 Tarile cu populatia sub 5 milioane care au castigat un numar de medalii mai mare decat 50% din numarul mediu de medalii pe tara:", specialCountries());
 console.log("#14 Tara cu cea mai recenta prima aparitie: ", latestFirstApp());
+console.log("#15 Tarile cu cea mai veche prima apartie care exista si in zilele noastre: ", firstAppCountries());
+
 
 function participatingCountries() {
   const arr = getOlympicData();
@@ -126,6 +130,26 @@ function nationPopulation(){
   return newObj;
 }
 
+function groupedByFirstLetter(){
+  const arr1 = getOlympicData();
+  let arr2 = [];
+  const obj = {};
+  let firstLetter = arr1[0].Nation[0];
+  
+  arr1.forEach(item => {
+    if(item.Nation[0]==firstLetter){
+      arr2.push(item.Nation);
+    } else {
+      obj[firstLetter]=arr2;
+      firstLetter = item.Nation[0];
+      arr2=[item.Nation];
+    } 
+  });
+  obj[firstLetter] = arr2;
+  return obj;
+}
+
+
 function randomCountry(){
   const arr = getOlympicData();
   let randomIndex = Math.floor(Math.random() * arr.length);
@@ -143,10 +167,30 @@ function multiMillionSummerWinter(){
   return arr2.map(item => item.Nation);
 }
 
+function specialCountries(){
+  const arr = getOlympicData();
+  let totalMedals = 0;
+  arr.forEach(item => totalMedals=totalMedals+item.SO_Medal+item.WO_Medal);
+  return arr.filter(item => (
+    item.Population<5000000 && (
+      (item.SO_Medal+item.WO_Medal)>totalMedals/arr.length/2
+      )
+    )
+  );
+}
+
+//TODO update to show all countries if there is more than one
 function latestFirstApp(){
   const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
   reversedArray = orderedArray.reverse();
   return reversedArray[0].Nation+", "+reversedArray[0].First_App;
+}
+
+function firstAppCountries(){
+  const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
+  const earliestFirstApp = orderedArray[0].First_App;
+  const firstCountries = orderedArray.filter(item => item.Exists=="YES" && item.First_App==earliestFirstApp);
+  return firstCountries;
 }
 
 //reusable
@@ -246,7 +290,19 @@ function displayController() {
   const mostRecentFirstApp = document.getElementById("most-recent-app");
   mostRecentFirstApp.textContent += latestFirstApp();
 
+  const firstCountriesExist = document.getElementById("first-countries");
+  for (let i = 0; i < firstAppCountries().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = firstAppCountries()[i].Nation+", "+firstAppCountries()[i].First_App;
+    firstCountriesExist.appendChild(listItem);
+  }
 
+  const specificCountries = document.getElementById("specific-countries");
+  for (let i = 0; i < specialCountries().length; i++) {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = specialCountries()[i].Nation;
+    specificCountries.appendChild(listItem);
+  }
 }
 
 // const myArray=[3,2,5,4];
