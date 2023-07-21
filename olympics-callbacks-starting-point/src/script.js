@@ -61,11 +61,25 @@ function sumPopulation(){
   return sum;
 }
 
-//TODO sa afisez top 5 ani si toate tarile care au participat in fiecare an
 function topFiveCountriesByEarliestAppearence(){
-  const arr = getOlympicData().map(item => [item.Nation, item.First_App]);
-  const orderedArrayFirstApp = arr.sort((a,b) => a[1]-b[1]); //population is ordered high to low
-  return topFive(orderedArrayFirstApp);
+  const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
+  let earliestFirstApp = orderedArray[0].First_App;
+  let arr2 = [];
+  const obj = {};
+
+  orderedArray.forEach(item => {
+    if(item.First_App==earliestFirstApp){
+      arr2.push(item.Nation);
+    } else {
+      obj[earliestFirstApp]=arr2;
+      earliestFirstApp = item.First_App;
+      arr2=[item.Nation];
+    } 
+  });
+  obj[earliestFirstApp]=arr2;
+  
+  const firstFiveEntries = Object.entries(obj).slice(0, 5);
+  return firstFiveEntries;
 }
 
 function nationCode(){
@@ -182,8 +196,27 @@ function specialCountries(){
 //TODO update to show all countries if there is more than one
 function latestFirstApp(){
   const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
-  reversedArray = orderedArray.reverse();
-  return reversedArray[0].Nation+", "+reversedArray[0].First_App;
+  let mostRecent = orderedArray[0].First_App;
+  console.log(mostRecent);
+  let arr2 = [];
+  const obj = {};
+
+  orderedArray.forEach(item => {
+    if(item.First_App==mostRecent){
+      arr2.push(item.Nation);
+    } else {
+      obj[mostRecent]=arr2;
+      mostRecent = item.First_App;
+      arr2=[item.Nation];
+    } 
+  });
+  obj[mostRecent]=arr2;
+
+  const firstEntry = Object.entries(obj).slice(-1);
+  return firstEntry;
+
+  // return mostRecent;
+  // return reversedArray[0].Nation+", "+reversedArray[0].First_App;
 }
 
 function firstAppCountries(){
@@ -213,6 +246,12 @@ function checkMostSuccessfulSport(property, value){
 function orderrByObjectPropertyLowToHigh(key){
   const arr = getOlympicData();
   const ordered = arr.sort((a, b) => (a[key]-b[key]));
+  return ordered;
+}
+
+function orderrByObjectPropertyHighToLow(key){
+  const arr = getOlympicData();
+  const ordered = arr.sort((a, b) => (b[key]-a[key]));
   return ordered;
 }
 //reusable
