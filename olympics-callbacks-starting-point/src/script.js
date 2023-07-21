@@ -163,7 +163,6 @@ function groupedByFirstLetter(){
   return obj;
 }
 
-
 function randomCountry(){
   const arr = getOlympicData();
   let randomIndex = Math.floor(Math.random() * arr.length);
@@ -193,7 +192,6 @@ function specialCountries(){
   );
 }
 
-//TODO update to show all countries if there is more than one
 function latestFirstApp(){
   const orderedArray = orderrByObjectPropertyLowToHigh("First_App");
   let mostRecent = orderedArray[0].First_App;
@@ -226,7 +224,7 @@ function firstAppCountries(){
   return firstCountries;
 }
 
-//reusable
+//reusable -->
 function topFive(array){
   const topFive = [];
   for (i=0; i<5; i++){
@@ -254,7 +252,7 @@ function orderrByObjectPropertyHighToLow(key){
   const ordered = arr.sort((a, b) => (b[key]-a[key]));
   return ordered;
 }
-//reusable
+//<-- reusable
 
 function displayController() {
   const countryList = document.getElementById("participating-countries");
